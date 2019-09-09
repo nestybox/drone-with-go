@@ -21,7 +21,9 @@ steps:
   commands:
     - echo $${USERNAME}
     - echo $${PASSWORD}
+    - docker login -u $${USERNAME} -p $${PASSWORD}
     - docker build -t nestybox/drone-with-go .
+    - docker push nestybox/drone-with-go
   environment:
     USERNAME:
       from_secret: docker_username
