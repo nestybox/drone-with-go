@@ -8,7 +8,14 @@ pipeline:
     commands:
       - go vet
       - go test -v -cover
+
   build:
     image: golang:latest
     commands:
       - go build
+
+  docker-build:
+    image: plugins/docker
+    repo: nestybox/drone-with-go
+    trusted: off
+    dry_run: true
