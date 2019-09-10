@@ -9,3 +9,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends nano
 ADD drone-with-go /
 
 CMD ["/drone-with-go"]
+
