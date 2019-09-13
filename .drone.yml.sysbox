@@ -1,0 +1,34 @@
+kind: pipeline
+name: default
+
+steps:
+- name: test
+  image: golang:latest
+  commands:
+  - go vet
+  - go test -v -cover
+
+- name: build
+  image: golang:latest
+  commands:
+  - go build
+
+- name: docker-build
+  image: docker
+  volumes:
+  - name: cache
+    path: /var/run/docker.sock
+  commands:
+    - echo $${USERNAME}
+    - echo $${PASSWORD}
+    - docker build -t nestybox/drone-with-go .
+  environment:
+    USERNAME:
+      from_secret: docker_username
+    PASSWORD:
+      from_secret: docker_password
+
+volumes:
+- name: cache
+  host:
+    path: /var/run/docker.sock
