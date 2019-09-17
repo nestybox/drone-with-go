@@ -19,14 +19,7 @@ steps:
   - name: cache
     path: /var/run/docker.sock
   commands:
-    - echo $${USERNAME}
-    - echo $${PASSWORD}
-    - docker build -t nestybox/drone-with-go .
-  environment:
-    USERNAME:
-      from_secret: docker_username
-    PASSWORD:
-      from_secret: docker_password
+    - docker build -t nestybox/drone-with-go-sysbox .
 
 volumes:
 - name: cache

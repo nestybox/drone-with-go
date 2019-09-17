@@ -14,8 +14,14 @@ steps:
   - go build
 
 - name: docker-build
-  image: plugins/docker
-  settings:
-    repo: nestybox/drone-with-go-no-sysbox
-    tags: latest
+  image: docker
+  volumes:
+  - name: cache
+    path: /var/run/docker.sock
+  commands:
+    - docker build -t nestybox/drone-with-go-sysbox .
 
+volumes:
+- name: cache
+  host:
+    path: /var/run/docker.sock
