@@ -1,0 +1,36 @@
+version: '2.3'
+
+services:
+  drone-server:
+    image: nestybox/ubuntu-bionic-docker-drone:latest
+    runtime: sysbox-runc
+    ports:
+      - 80:80
+
+    environment:
+      - DRONE_OPEN=true
+      - DRONE_GITHUB=true
+      - DRONE_GITHUB_SERVER=https://github.com
+      - DRONE_SERVER_HOST=server-01.nestybox.com
+      - DRONE_SERVER=http://server-01.nestybox.com
+      - DRONE_GITHUB_CLIENT_ID=da96f2063301a68186ed
+      - DRONE_GITHUB_CLIENT_SECRET=46fcb24fe84b5b738a2954b40ecf03ece38dd1a1
+      - DRONE_USER_CREATE=username:nestybox,admin:true,token:55f24eb3d61ef6ac5e83d55017860000
+      - DRONE_RPC_SECRET=my-secret
+      - DRONE_AGENTS_ENABLED=true
+      - DRONE_LOGS_DEBUG=true
+      - DRONE_LOGS_PRETTY=true
+      - DRONE_RPC_DEBUG=true
+
+  drone-agent:
+    image: nestybox/ubuntu-bionic-docker-drone-agent:latest
+    runtime: sysbox-runc
+    restart: always
+    depends_on:
+      - drone-server
+    environment:
+      - DRONE_SERVER_HOST=server-01.nestybox.com:80
+      - DRONE_RPC_SECRET=my-secret
+      - DRONE_LOGS_DEBUG=true
+      - DRONE_LOGS_PRETTY=true
+      - DRONE_RPC_DEBUG=true
